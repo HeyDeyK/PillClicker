@@ -4,15 +4,31 @@
              xmlns:local="clr-namespace:Clicker"
              x:Class="Clicker.MainPage">
     
-    <StackLayout HorizontalOptions="FillAndExpand" Spacing="0" >
+    <StackLayout HorizontalOptions="Center" Spacing="0" >
+        <Grid HorizontalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="First Text" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="Red" FontSize="20" ></Label>
+            <Label Text="Second Text" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="Red" FontSize="20" ></Label>
+            <Label Text="56555" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="Blue" FontSize="30"></Label>
+            <Label Text="10000" Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="Blue" FontSize="30"></Label>
+        </Grid>
         <Label Text="Počet léků:" VerticalOptions="Center"  HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"/>
         <Label Text="{Binding LekyCTR}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" FontSize="50" >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding TapCommand}"/>
             </Label.GestureRecognizers>
         </Label>
-        <Label Text="{Binding AutoLeky}" HorizontalOptions="Center"></Label>
-        <Button Text="{Binding LekyCTR}" HeightRequest="80"  Command="{Binding UpgradeFactory}"> </Button>
+        <Label Text="{Binding LekyIncome}" HorizontalOptions="Center"></Label>
+        <Label Text="Upgrade Továrny" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
+        <Button Text="{Binding TovarnaPrice}" HeightRequest="80"  Command="{Binding TovarnaUpgrade}" BackgroundColor="{Binding TovarnaColor}"> </Button>
     </StackLayout>
 	
 

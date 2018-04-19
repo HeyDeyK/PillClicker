@@ -11,8 +11,11 @@ namespace Clicker
 {
     class AppViewModel : INotifyPropertyChanged
     {
-        double taps = 0;
-        int intLeky = 0;
+        double money = 0;
+        int lekySekunda = 0;
+        
+
+
         private string _LekyCTR= "0";
         public string LekyCTR
         {
@@ -22,59 +25,123 @@ namespace Clicker
                 _LekyCTR = value;
             }
         }
-        private string _AutoLeky = "0";
-        public string AutoLeky
+
+        private string _MoneyCTR = "0";
+        public string MoneyCTR
         {
-            get => _AutoLeky;
+            get => _MoneyCTR;
             set
             {
-                _AutoLeky = value;
+                _MoneyCTR = value;
             }
         }
+
+        private string _LekyIncome = "0";
+        public string LekyIncome
+        {
+            get => _LekyIncome;
+            set
+            {
+                _LekyIncome = value;
+            }
+        }
+
+        private int _TovarnaPrice = 5;
+        public int TovarnaPrice
+        {
+            get => _TovarnaPrice;
+            set
+            {
+                _TovarnaPrice = value;
+            }
+        }
+        private int _TovarnaIncome = 0;
+        public int TovarnaIncome
+        {
+            get => _TovarnaIncome;
+            set
+            {
+                _TovarnaIncome = value;
+            }
+        }
+        public string TovarnaColor { get; set; } = "red";
+
+
+
         ICommand tapCommand;
-        ICommand upgradeFactory;
-        public AppViewModel()
-        {
-            // configure the TapCommand with a method
-            tapCommand = new Command(OnTapped);
-            upgradeFactory = new Command(AutoFactory);
-
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 250;
-            timer.Elapsed += OnTimedEvent;
-            timer.Enabled = true;
-
-        }
-        private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            Console.WriteLine("Origo:" + intLeky);
-            double cislo = intLeky / 4;
-            taps = taps + intLeky;
-            LekyCTR = "" + taps;
-            OnPropertyChanged("LekyCTR");
-        }
+        ICommand tovarnaUpgrade;
         public ICommand TapCommand
         {
             get { return tapCommand; }
         }
-        public ICommand UpgradeFactory
+        public ICommand TovarnaUpgrade
         {
-            get { return upgradeFactory; }
+            get { return tovarnaUpgrade; }
+        }
+
+
+        public AppViewModel()
+        {
+            // configure the TapCommand with a method
+            tapCommand = new Command(OnTapped);
+            tovarnaUpgrade = new Command(AutoFactory);
+            TimedFunction(1000);
+            
+
+        }
+        public void TimedFunction(int cas)
+        {
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Interval = cas;
+            timer.Elapsed += OnTimedEvent;
+            timer.Enabled = true;
+        }
+        private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            /*if(lekySekunda<5 && lekySekunda>0)
+            {
+                lekySekunda = 4;
+            }*/
+            //double cislo = 2 / 4;
+            money = money + lekySekunda; // 1;
+            LekyCTR = "" + money;
+            OnPropertyChanged("LekyCTR");
+            CheckButtonsPrices();
+        }
+        private void CheckButtonsPrices()
+        {
+            if(TovarnaPrice<=money)
+            {
+                TovarnaColor = "Green";
+                OnPropertyChanged("TovarnaColor");
+            }
+            else
+            {
+                TovarnaColor = "Red";
+                OnPropertyChanged("TovarnaColor");
+            }
         }
         void OnTapped(object s)
         {
-            taps++;
-            Console.WriteLine(taps);
-            LekyCTR = "" + taps;
+            money++;
+            LekyCTR = "" + money;
             OnPropertyChanged("LekyCTR");
 
         }
         void AutoFactory(object s)
         {
-            intLeky = ((intLeky + 1) * 2);
-            AutoLeky = " "+ ((intLeky + 1) * 2);
-            Console.WriteLine(AutoLeky);
-            OnPropertyChanged("AutoLeky");
+            if(money>=TovarnaPrice)
+            {
+                money = money - TovarnaPrice;
+                TovarnaIncome = ((TovarnaIncome + 1) * 2);
+                TovarnaPrice = ((TovarnaIncome * 10) + 10);
+                lekySekunda = TovarnaIncome;
+                LekyIncome = " " + lekySekunda + " p/s";
+                Console.WriteLine(LekyIncome);
+                OnPropertyChanged("LekyIncome");
+                OnPropertyChanged("TovarnaPrice");
+            }
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -84,10 +151,6 @@ namespace Clicker
             var handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(name));
-        }
-        void TapF()
-        {
-            Console.WriteLine("Test");
         }
         
     }
