@@ -16,5 +16,6 @@ namespace Clicker
             this.BindingContext = new AppViewModel();
 
         }
+
 	}
 }

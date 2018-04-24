@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,6 +13,7 @@ namespace Clicker
     class AppViewModel : INotifyPropertyChanged
     {
         double money = 0;
+        double leky = 0;
         int lekySekunda = 0;
         
 
@@ -35,6 +37,15 @@ namespace Clicker
                 _MoneyCTR = value;
             }
         }
+        private string _MoneyIncome = "0";
+        public string MoneyIncome
+        {
+            get => _MoneyIncome;
+            set
+            {
+                _MoneyIncome = value;
+            }
+        }
 
         private string _LekyIncome = "0";
         public string LekyIncome
@@ -55,6 +66,25 @@ namespace Clicker
                 _TovarnaPrice = value;
             }
         }
+        private int _ProdejnaRychlostPrice = 10;
+        public int ProdejnaRychlostPrice
+        {
+            get => _ProdejnaRychlostPrice;
+            set
+            {
+                _ProdejnaRychlostPrice = value;
+            }
+        }
+        private int _ProdejnaHodnotaPrice = 10;
+        public int ProdejnaHodnotaPrice
+        {
+            get => _ProdejnaHodnotaPrice;
+            set
+            {
+                _ProdejnaHodnotaPrice = value;
+            }
+        }
+
         private int _TovarnaIncome = 0;
         public int TovarnaIncome
         {
@@ -70,6 +100,14 @@ namespace Clicker
 
         ICommand tapCommand;
         ICommand tovarnaUpgrade;
+        ICommand prodejnaUpgradeRychlost;
+        ICommand prodejnaUpgradeHodnota;
+        ICommand gridTap;
+        ICommand tapAddMoney;
+        public ICommand TapAddMoney
+        {
+            get { return tapAddMoney; }
+        }
         public ICommand TapCommand
         {
             get { return tapCommand; }
@@ -78,16 +116,51 @@ namespace Clicker
         {
             get { return tovarnaUpgrade; }
         }
-
+        public ICommand GridTap
+        {
+            get { return gridTap; }
+        }
+        public ICommand ProdejnaUpgradeRychlost
+        {
+            get { return prodejnaUpgradeRychlost; }
+        }
+        public ICommand ProdejnaUpgradeHodnota
+        {
+            get { return prodejnaUpgradeHodnota; }
+        }
 
         public AppViewModel()
         {
             // configure the TapCommand with a method
             tapCommand = new Command(OnTapped);
             tovarnaUpgrade = new Command(AutoFactory);
+            gridTap = new Command(Testik);
+            tapAddMoney = new Command(AddMoneyF);
+            prodejnaUpgradeHodnota = new Command(AutoProdejnaHodnota);
+            prodejnaUpgradeRychlost = new Command(AutoProdejnaRychlost);
             TimedFunction(1000);
+            TimedFunctionShort(250);
+
             
 
+        }
+        private void AutoProdejnaHodnota()
+        {
+            Console.WriteLine("Vylepsit Hodnotu");
+        }
+        private void AutoProdejnaRychlost()
+        {
+            Console.WriteLine("Vylepsit Rychlost");
+        }
+        private void AddMoneyF()
+        {
+            money++;
+            MoneyCTR = "" + money;
+            OnPropertyChanged("MoneyCTR");
+        }
+        private void Testik()
+        {
+            Console.WriteLine("Test");
         }
         public void TimedFunction(int cas)
         {
@@ -96,6 +169,17 @@ namespace Clicker
             timer.Elapsed += OnTimedEvent;
             timer.Enabled = true;
         }
+        public void TimedFunctionShort(int cas)
+        {
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Interval = cas;
+            timer.Elapsed += OnTimedEventShort;
+            timer.Enabled = true;
+        }
+        private void OnTimedEventShort(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            CheckButtonsPrices();
+        }
         private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
         {
             /*if(lekySekunda<5 && lekySekunda>0)
@@ -103,10 +187,10 @@ namespace Clicker
                 lekySekunda = 4;
             }*/
             //double cislo = 2 / 4;
-            money = money + lekySekunda; // 1;
-            LekyCTR = "" + money;
+            leky = leky + lekySekunda; // 1;
+            LekyCTR = "" + leky;
             OnPropertyChanged("LekyCTR");
-            CheckButtonsPrices();
+            
         }
         private void CheckButtonsPrices()
         {
@@ -123,8 +207,8 @@ namespace Clicker
         }
         void OnTapped(object s)
         {
-            money++;
-            LekyCTR = "" + money;
+            leky++;
+            LekyCTR = "" + leky;
             OnPropertyChanged("LekyCTR");
 
         }
