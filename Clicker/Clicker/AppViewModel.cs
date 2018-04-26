@@ -13,6 +13,8 @@ namespace Clicker
     class AppViewModel : INotifyPropertyChanged
     {
         double money = 0;
+        double moneySpeed=1;
+        double moneyHodnota=1;
         double leky = 0;
         int lekySekunda = 0;
         
@@ -37,13 +39,22 @@ namespace Clicker
                 _MoneyCTR = value;
             }
         }
-        private string _MoneyIncome = "0";
-        public string MoneyIncome
+        private string _MoneyHodnota = "1";
+        public string MoneyHodnota
         {
-            get => _MoneyIncome;
+            get => _MoneyHodnota;
             set
             {
-                _MoneyIncome = value;
+                _MoneyHodnota = value;
+            }
+        }
+        private string _MoneySpeed = "1";
+        public string MoneySpeed
+        {
+            get => _MoneySpeed;
+            set
+            {
+                _MoneySpeed = value;
             }
         }
 
@@ -94,7 +105,18 @@ namespace Clicker
                 _TovarnaIncome = value;
             }
         }
+        private double _SliderPomerValue = 0;
+        public double SliderPomerValue
+        {
+            get => _SliderPomerValue;
+            set
+            {
+                _SliderPomerValue = value;
+            }
+        }
         public string TovarnaColor { get; set; } = "red";
+        public string ProdejnaRychlostColor { get; set; } = "red";
+        public string ProdejnaHodnotaColor { get; set; } = "red";
 
 
 
@@ -131,26 +153,45 @@ namespace Clicker
 
         public AppViewModel()
         {
-            // configure the TapCommand with a method
+            AddCommands();
+            TimedFunction(1000);
+            TimedFunctionShort(250);
+        }
+        private void AddCommands()
+        {
             tapCommand = new Command(OnTapped);
             tovarnaUpgrade = new Command(AutoFactory);
             gridTap = new Command(Testik);
             tapAddMoney = new Command(AddMoneyF);
             prodejnaUpgradeHodnota = new Command(AutoProdejnaHodnota);
             prodejnaUpgradeRychlost = new Command(AutoProdejnaRychlost);
-            TimedFunction(1000);
-            TimedFunctionShort(250);
+        }
+        void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            double StepValue = 10;
+            var newStep = Math.Round(e.NewValue / StepValue);
 
-            
-
+            SliderPomerValue = newStep * StepValue;
         }
         private void AutoProdejnaHodnota()
         {
-            Console.WriteLine("Vylepsit Hodnotu");
+            money = money - ProdejnaHodnotaPrice;
+            ProdejnaHodnotaPrice = ProdejnaHodnotaPrice * 2;
+            moneyHodnota = moneyHodnota + 2;
+            MoneyHodnota = "" + moneyHodnota;
+            OnPropertyChanged("MoneyHodnota");
+            OnPropertyChanged("ProdejnaHodnotaPrice");
+            OnPropertyChanged("MoneyCTR");
         }
         private void AutoProdejnaRychlost()
         {
-            Console.WriteLine("Vylepsit Rychlost");
+            money = money - ProdejnaRychlostPrice;
+            ProdejnaRychlostPrice = ProdejnaRychlostPrice * 2;
+            moneySpeed = moneySpeed + 2;
+            MoneySpeed = "" + moneySpeed;
+            OnPropertyChanged("MoneySpeed");
+            OnPropertyChanged("ProdejnaRychlostPrice");
+            OnPropertyChanged("MoneyCTR");
         }
         private void AddMoneyF()
         {
@@ -188,9 +229,19 @@ namespace Clicker
             }*/
             //double cislo = 2 / 4;
             leky = leky + lekySekunda; // 1;
-            LekyCTR = "" + leky;
-            OnPropertyChanged("LekyCTR");
             
+            
+            if(moneySpeed<= leky)
+            {
+                leky = leky - moneySpeed;
+                money=money+(moneyHodnota*moneySpeed);
+                
+            }
+            LekyCTR = "" + leky;
+            MoneyCTR = "" + money;
+            OnPropertyChanged("LekyCTR");
+            OnPropertyChanged("MoneyCTR");
+
         }
         private void CheckButtonsPrices()
         {
@@ -203,6 +254,26 @@ namespace Clicker
             {
                 TovarnaColor = "Red";
                 OnPropertyChanged("TovarnaColor");
+            }
+            if (ProdejnaHodnotaPrice <= money)
+            {
+                ProdejnaHodnotaColor = "Green";
+                OnPropertyChanged("ProdejnaHodnotaColor");
+            }
+            else
+            {
+                ProdejnaHodnotaColor = "Red";
+                OnPropertyChanged("ProdejnaHodnotaColor");
+            }
+            if (ProdejnaRychlostPrice <= money)
+            {
+                ProdejnaRychlostColor = "Green";
+                OnPropertyChanged("ProdejnaRychlostColor");
+            }
+            else
+            {
+                ProdejnaRychlostColor = "Red";
+                OnPropertyChanged("ProdejnaRychlostColor");
             }
         }
         void OnTapped(object s)
