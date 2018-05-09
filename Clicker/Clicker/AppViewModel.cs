@@ -111,7 +111,11 @@ namespace Clicker
             get => _SliderPomerValue;
             set
             {
-                _SliderPomerValue = value;
+                double StepValue = 10;
+                var newStep = Math.Round(value / StepValue);
+
+                _SliderPomerValue = newStep * StepValue;
+                Console.WriteLine(SliderPomerValue);
             }
         }
         public string TovarnaColor { get; set; } = "red";
@@ -166,12 +170,13 @@ namespace Clicker
             prodejnaUpgradeHodnota = new Command(AutoProdejnaHodnota);
             prodejnaUpgradeRychlost = new Command(AutoProdejnaRychlost);
         }
-        void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+        void OnSliderValueChanged()
         {
             double StepValue = 10;
-            var newStep = Math.Round(e.NewValue / StepValue);
+            var newStep = Math.Round(SliderPomerValue / StepValue);
 
             SliderPomerValue = newStep * StepValue;
+            Console.WriteLine(SliderPomerValue);
         }
         private void AutoProdejnaHodnota()
         {

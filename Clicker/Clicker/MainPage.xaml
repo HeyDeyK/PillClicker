@@ -3,48 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Clicker"
              x:Class="Clicker.MainPage">
-    
-    <StackLayout HorizontalOptions="Center" Spacing="0" >
-        <Grid HorizontalOptions="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Text="Léky" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Blue" FontSize="20" ></Label>
-            <Label Text="Peníze" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Blue" FontSize="20" ></Label>
-            <Label Text="{Binding LekyCTR}" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="30"></Label>
-            <Label Text="{Binding MoneyCTR}" Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="30"></Label>
-        </Grid>
-        <Label Text="Počet léků:" VerticalOptions="Center"  HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"/>
-        <Label Text="{Binding LekyCTR}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" FontSize="50" >
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding TapCommand}"/>
-            </Label.GestureRecognizers>
-        </Label>
-        <Label Text="{Binding LekyIncome}" HorizontalOptions="Center"></Label>
-        <Label Text="Upgrade Továrny" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
-        <Button Text="{Binding TovarnaPrice}" HeightRequest="80"  Command="{Binding TovarnaUpgrade}" BackgroundColor="{Binding TovarnaColor}"> </Button>
-        
-        <Label Text="Počet prašulí:" VerticalOptions="Center"  HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"/>
-        <Label Text="{Binding MoneyCTR}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" FontSize="50" >
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding TapAddMoney}"/>
-            </Label.GestureRecognizers>
-        </Label>
-        <Label Text="{Binding MoneyHodnota,StringFormat='{0:N} $ za pilulku'}" HorizontalOptions="Center" FontSize="20"></Label>
-        <Label Text="{Binding MoneySpeed,StringFormat='{0:N} pilulek za sekundu'}" HorizontalOptions="Center" FontSize="20"></Label>
-        <Label Text="Rychlost prodeje" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
-        <Button Text="{Binding ProdejnaRychlostPrice}" HeightRequest="80"  Command="{Binding ProdejnaUpgradeRychlost}" BackgroundColor="{Binding ProdejnaRychlostColor}"></Button>
-        <Label Text="Hodnota léků" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
-        <Button Text="{Binding ProdejnaHodnotaPrice}" HeightRequest="80"  Command="{Binding ProdejnaUpgradeHodnota}" BackgroundColor="{Binding ProdejnaHodnotaColor}"></Button>
-        <Slider Minimum="0" Maximum="100" Value="{Binding SliderPomerValue }" VerticalOptions="CenterAndExpand"></Slider>
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <ScrollView>
+            <StackLayout  Spacing="0" VerticalOptions="Start"  >
+                <Grid HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Léky" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Blue" FontSize="20" ></Label>
+                    <Label Text="Peníze" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Blue" FontSize="20" ></Label>
+                    <Label Text="{Binding LekyCTR}" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="30"></Label>
+                    <Label Text="{Binding MoneyCTR}" Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="30"></Label>
+                </Grid>
+                <Label Text="Počet léků:" VerticalOptions="Center"  HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"/>
+                <Label Text="{Binding LekyCTR}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" FontSize="50" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="{Binding LekyIncome}" HorizontalOptions="Center"></Label>
+                <Label Text="Upgrade Továrny" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
+                <Button Text="{Binding TovarnaPrice}" HeightRequest="80"  Command="{Binding TovarnaUpgrade}" BackgroundColor="{Binding TovarnaColor}"></Button>
 
+                <Label Text="Počet prašulí:" VerticalOptions="Center"  HorizontalOptions="Center" FontSize="30" Margin="0,20,0,0"/>
+                <Label Text="{Binding MoneyCTR}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" FontSize="50" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapAddMoney}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="{Binding MoneyHodnota,StringFormat='{0:N} $ za pilulku'}" HorizontalOptions="Center" FontSize="20"></Label>
+                <Label Text="{Binding MoneySpeed,StringFormat='{0:N} pilulek za sekundu'}" HorizontalOptions="Center" FontSize="20"></Label>
+                <Label Text="Rychlost prodeje" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
+                <Button Text="{Binding ProdejnaRychlostPrice}" HeightRequest="80"  Command="{Binding ProdejnaUpgradeRychlost}" BackgroundColor="{Binding ProdejnaRychlostColor}"></Button>
+                <Label Text="Hodnota léků" HorizontalOptions="Center" Margin="0,10,0,0"></Label>
+                <Button Text="{Binding ProdejnaHodnotaPrice}" HeightRequest="80"  Command="{Binding ProdejnaUpgradeHodnota}" BackgroundColor="{Binding ProdejnaHodnotaColor}"></Button>
+                <Slider Minimum="0" Maximum="100" Value="{Binding SliderPomerValue }" VerticalOptions="CenterAndExpand"></Slider>
+
+            </StackLayout>
+        </ScrollView>
     </StackLayout>
-	
 
 </ContentPage>
