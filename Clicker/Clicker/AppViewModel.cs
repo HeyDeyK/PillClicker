@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Content.Res;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -12,26 +13,11 @@ namespace Clicker
 {
     class AppViewModel : INotifyPropertyChanged
     {
-        double money = 0;
-        double moneySpeed=1;
-        double moneyHodnota=1;
-        double leky = 0;
-        int lekySekunda = 0;
+
         
 
-
-        private string _LekyCTR= "0";
-        public string LekyCTR
-        {
-            get => _LekyCTR;
-            set
-            {
-                _LekyCTR = value;
-            }
-        }
-
-        private string _MoneyCTR = "0";
-        public string MoneyCTR
+        private int _MoneyCTR = 50;
+        public int MoneyCTR
         {
             get => _MoneyCTR;
             set
@@ -39,36 +25,17 @@ namespace Clicker
                 _MoneyCTR = value;
             }
         }
-        private string _MoneyHodnota = "1";
-        public string MoneyHodnota
+        private int _MoneyIncome = 0;
+        public int MoneyIncome
         {
-            get => _MoneyHodnota;
+            get => _MoneyIncome;
             set
             {
-                _MoneyHodnota = value;
-            }
-        }
-        private string _MoneySpeed = "1";
-        public string MoneySpeed
-        {
-            get => _MoneySpeed;
-            set
-            {
-                _MoneySpeed = value;
+                _MoneyIncome = value;
             }
         }
 
-        private string _LekyIncome = "0";
-        public string LekyIncome
-        {
-            get => _LekyIncome;
-            set
-            {
-                _LekyIncome = value;
-            }
-        }
-
-        private int _TovarnaPrice = 5;
+        private int _TovarnaPrice = 50;
         public int TovarnaPrice
         {
             get => _TovarnaPrice;
@@ -77,34 +44,70 @@ namespace Clicker
                 _TovarnaPrice = value;
             }
         }
-        private int _ProdejnaRychlostPrice = 10;
-        public int ProdejnaRychlostPrice
+        private int _TovarnaCount = 1;
+        public int TovarnaCount
         {
-            get => _ProdejnaRychlostPrice;
+            get => _TovarnaCount;
             set
             {
-                _ProdejnaRychlostPrice = value;
+                _TovarnaCount = value;
             }
         }
-        private int _ProdejnaHodnotaPrice = 10;
-        public int ProdejnaHodnotaPrice
+        private int _ProdejnaPrice = 50;
+        public int ProdejnaPrice
         {
-            get => _ProdejnaHodnotaPrice;
+            get => _ProdejnaPrice;
             set
             {
-                _ProdejnaHodnotaPrice = value;
+                _ProdejnaPrice = value;
+            }
+        }
+        private int _ProdejnaCount = 1;
+        public int ProdejnaCount
+        {
+            get => _ProdejnaCount;
+            set
+            {
+                _ProdejnaCount = value;
+            }
+        }
+        private int _LabPrice = 50;
+        public int LabPrice
+        {
+            get => _LabPrice;
+            set
+            {
+                _LabPrice = value;
+            }
+        }
+        private int _LabCount = 1;
+        public int LabCount
+        {
+            get => _LabCount;
+            set
+            {
+                _LabCount = value;
+            }
+        }
+        private int _KanclPrice = 50;
+        public int KanclPrice
+        {
+            get => _KanclPrice;
+            set
+            {
+                _KanclPrice = value;
+            }
+        }
+        private int _KanclCount = 1;
+        public int KanclCount
+        {
+            get => _KanclCount;
+            set
+            {
+                _KanclCount = value;
             }
         }
 
-        private int _TovarnaIncome = 0;
-        public int TovarnaIncome
-        {
-            get => _TovarnaIncome;
-            set
-            {
-                _TovarnaIncome = value;
-            }
-        }
         private double _SliderPomerValue = 0;
         public double SliderPomerValue
         {
@@ -119,41 +122,38 @@ namespace Clicker
             }
         }
         public string TovarnaColor { get; set; } = "red";
-        public string ProdejnaRychlostColor { get; set; } = "red";
-        public string ProdejnaHodnotaColor { get; set; } = "red";
+        public string ProdejnaColor { get; set; } = "red";
+        public string LabColor { get; set; } = "red";
+        public string KanclColor { get; set; } = "red";
 
 
 
-        ICommand tapCommand;
         ICommand tovarnaUpgrade;
-        ICommand prodejnaUpgradeRychlost;
-        ICommand prodejnaUpgradeHodnota;
-        ICommand gridTap;
+        ICommand prodejnaUpgrade;
+        ICommand labUpgrade;
+        ICommand kanclUpgrade;
         ICommand tapAddMoney;
         public ICommand TapAddMoney
         {
             get { return tapAddMoney; }
         }
-        public ICommand TapCommand
-        {
-            get { return tapCommand; }
-        }
         public ICommand TovarnaUpgrade
         {
             get { return tovarnaUpgrade; }
         }
-        public ICommand GridTap
+        public ICommand ProdejnaUpgrade
         {
-            get { return gridTap; }
+            get { return prodejnaUpgrade; }
         }
-        public ICommand ProdejnaUpgradeRychlost
+        public ICommand LabUpgrade
         {
-            get { return prodejnaUpgradeRychlost; }
+            get { return labUpgrade; }
         }
-        public ICommand ProdejnaUpgradeHodnota
+        public ICommand KanclUpgrade
         {
-            get { return prodejnaUpgradeHodnota; }
+            get { return kanclUpgrade; }
         }
+
 
         public AppViewModel()
         {
@@ -163,12 +163,8 @@ namespace Clicker
         }
         private void AddCommands()
         {
-            tapCommand = new Command(OnTapped);
             tovarnaUpgrade = new Command(AutoFactory);
-            gridTap = new Command(Testik);
             tapAddMoney = new Command(AddMoneyF);
-            prodejnaUpgradeHodnota = new Command(AutoProdejnaHodnota);
-            prodejnaUpgradeRychlost = new Command(AutoProdejnaRychlost);
         }
         void OnSliderValueChanged()
         {
@@ -178,35 +174,10 @@ namespace Clicker
             SliderPomerValue = newStep * StepValue;
             Console.WriteLine(SliderPomerValue);
         }
-        private void AutoProdejnaHodnota()
-        {
-            money = money - ProdejnaHodnotaPrice;
-            ProdejnaHodnotaPrice = ProdejnaHodnotaPrice * 2;
-            moneyHodnota = moneyHodnota + 2;
-            MoneyHodnota = "" + moneyHodnota;
-            OnPropertyChanged("MoneyHodnota");
-            OnPropertyChanged("ProdejnaHodnotaPrice");
-            OnPropertyChanged("MoneyCTR");
-        }
-        private void AutoProdejnaRychlost()
-        {
-            money = money - ProdejnaRychlostPrice;
-            ProdejnaRychlostPrice = ProdejnaRychlostPrice * 2;
-            moneySpeed = moneySpeed + 2;
-            MoneySpeed = "" + moneySpeed;
-            OnPropertyChanged("MoneySpeed");
-            OnPropertyChanged("ProdejnaRychlostPrice");
-            OnPropertyChanged("MoneyCTR");
-        }
         private void AddMoneyF()
         {
-            money++;
-            MoneyCTR = "" + money;
+            MoneyCTR++;
             OnPropertyChanged("MoneyCTR");
-        }
-        private void Testik()
-        {
-            Console.WriteLine("Test");
         }
         public void TimedFunction(int cas)
         {
@@ -228,29 +199,14 @@ namespace Clicker
         }
         private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
         {
-            /*if(lekySekunda<5 && lekySekunda>0)
-            {
-                lekySekunda = 4;
-            }*/
-            //double cislo = 2 / 4;
-            leky = leky + lekySekunda; // 1;
-            
-            
-            if(moneySpeed<= leky)
-            {
-                leky = leky - moneySpeed;
-                money=money+(moneyHodnota*moneySpeed);
-                
-            }
-            LekyCTR = "" + leky;
-            MoneyCTR = "" + money;
-            OnPropertyChanged("LekyCTR");
+
+            MoneyCTR = MoneyCTR + MoneyIncome;
             OnPropertyChanged("MoneyCTR");
 
         }
         private void CheckButtonsPrices()
         {
-            if(TovarnaPrice<=money)
+            if(TovarnaPrice<= MoneyCTR)
             {
                 TovarnaColor = "Green";
                 OnPropertyChanged("TovarnaColor");
@@ -260,46 +216,53 @@ namespace Clicker
                 TovarnaColor = "Red";
                 OnPropertyChanged("TovarnaColor");
             }
-            if (ProdejnaHodnotaPrice <= money)
+            if (ProdejnaPrice <= MoneyCTR)
             {
-                ProdejnaHodnotaColor = "Green";
-                OnPropertyChanged("ProdejnaHodnotaColor");
+                ProdejnaColor = "Green";
+                OnPropertyChanged("ProdejnaColor");
             }
             else
             {
-                ProdejnaHodnotaColor = "Red";
-                OnPropertyChanged("ProdejnaHodnotaColor");
+                ProdejnaColor = "Red";
+                OnPropertyChanged("ProdejnaColor");
             }
-            if (ProdejnaRychlostPrice <= money)
+            if (LabPrice <= MoneyCTR)
             {
-                ProdejnaRychlostColor = "Green";
-                OnPropertyChanged("ProdejnaRychlostColor");
+                LabColor = "Green";
+                OnPropertyChanged("LabColor");
             }
             else
             {
-                ProdejnaRychlostColor = "Red";
-                OnPropertyChanged("ProdejnaRychlostColor");
+                LabColor = "Red";
+                OnPropertyChanged("LabColor");
             }
-        }
-        void OnTapped(object s)
-        {
-            leky++;
-            LekyCTR = "" + leky;
-            OnPropertyChanged("LekyCTR");
+            if (KanclPrice <= MoneyCTR)
+            {
+                KanclColor = "Green";
+                OnPropertyChanged("KanclColor");
+            }
+            else
+            {
+                KanclColor = "Red";
+                OnPropertyChanged("KanclColor");
+            }
 
         }
+        
         void AutoFactory(object s)
         {
-            if(money>=TovarnaPrice)
+            if(MoneyCTR>=TovarnaPrice)
             {
-                money = money - TovarnaPrice;
-                TovarnaIncome = ((TovarnaIncome + 1) * 2);
-                TovarnaPrice = ((TovarnaIncome * 10) + 10);
-                lekySekunda = TovarnaIncome;
-                LekyIncome = " " + lekySekunda + " p/s";
-                Console.WriteLine(LekyIncome);
-                OnPropertyChanged("LekyIncome");
+                TovarnaCount++;
+                MoneyCTR = MoneyCTR - TovarnaPrice;
+                MoneyIncome = TovarnaCount * 5;
+                double NewPrice = TovarnaPrice * Math.Pow(1.1,TovarnaCount);
+                Console.WriteLine(NewPrice);
+                TovarnaPrice = Convert.ToInt32(NewPrice);
+                
                 OnPropertyChanged("TovarnaPrice");
+                OnPropertyChanged("MoneyCTR");
+                OnPropertyChanged("MoneyIncome");
             }
             
         }
