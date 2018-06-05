@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Clicker.ViewModels;
 
 namespace Clicker
 {
@@ -29,6 +30,10 @@ namespace Clicker
         void TapOpenSettings(object sender, EventArgs args)
         {
             Navigation.PushModalAsync(new SettingsPage { });
+        }
+        void TapOpenUpgrade(object sender, EventArgs args)
+        {
+            Navigation.PushModalAsync(new Page3 { });
         }
     }
 }

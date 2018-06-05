@@ -10,17 +10,9 @@ using Xamarin.Forms;
 
 namespace Clicker
 {
-    class AppViewModel : INotifyPropertyChanged
+    class AppViewModel : UserData, INotifyPropertyChanged
     {
-        private int _MoneyCTR = 50;
-        public int MoneyCTR
-        {
-            get => _MoneyCTR;
-            set
-            {
-                _MoneyCTR = value;
-            }
-        }
+        
         private double _MoneyIncome = 0;
         public double MoneyIncome
         {

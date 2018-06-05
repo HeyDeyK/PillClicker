@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Clicker.Page3">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Vylepšení" FontSize="35" Margin="0,0,0,20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="Bonus za kliknutí" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="{Binding UpgKlikLevel,StringFormat='Úroveň: {0:N} za klik'}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Button Text="{Binding KlikPrice}" Command="{Binding CmdUpgradeKlik}"></Button>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
