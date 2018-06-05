@@ -1,5 +1,4 @@
-﻿using Android.Content.Res;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -13,9 +12,6 @@ namespace Clicker
 {
     class AppViewModel : INotifyPropertyChanged
     {
-
-        
-
         private int _MoneyCTR = 50;
         public int MoneyCTR
         {
@@ -25,8 +21,8 @@ namespace Clicker
                 _MoneyCTR = value;
             }
         }
-        private int _MoneyIncome = 0;
-        public int MoneyIncome
+        private double _MoneyIncome = 0;
+        public double MoneyIncome
         {
             get => _MoneyIncome;
             set
@@ -158,7 +154,7 @@ namespace Clicker
         public AppViewModel()
         {
             AddCommands();
-            TimedFunction(1000);
+            TimedFunction(100);
             TimedFunctionShort(250);
         }
         private void AddCommands()
@@ -199,8 +195,8 @@ namespace Clicker
         }
         private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
         {
-
-            MoneyCTR = MoneyCTR + MoneyIncome;
+            double Income = MoneyIncome / 10;
+            MoneyCTR = MoneyCTR + (int)Income;
             OnPropertyChanged("MoneyCTR");
 
         }
@@ -257,7 +253,6 @@ namespace Clicker
                 MoneyCTR = MoneyCTR - TovarnaPrice;
                 MoneyIncome = TovarnaCount * 5;
                 double NewPrice = TovarnaPrice * Math.Pow(1.1,TovarnaCount);
-                Console.WriteLine(NewPrice);
                 TovarnaPrice = Convert.ToInt32(NewPrice);
                 
                 OnPropertyChanged("TovarnaPrice");
@@ -265,6 +260,39 @@ namespace Clicker
                 OnPropertyChanged("MoneyIncome");
             }
             
+        }
+        void AutoProdejna(object s)
+        {
+            if (MoneyCTR >= ProdejnaPrice)
+            {
+
+                OnPropertyChanged("TovarnaPrice");
+                OnPropertyChanged("MoneyCTR");
+                OnPropertyChanged("MoneyIncome");
+            }
+
+        }
+        void AutoLab(object s)
+        {
+            if (MoneyCTR >= LabPrice)
+            {
+
+                OnPropertyChanged("TovarnaPrice");
+                OnPropertyChanged("MoneyCTR");
+                OnPropertyChanged("MoneyIncome");
+            }
+
+        }
+        void AutoKancl(object s)
+        {
+            if (MoneyCTR >= KanclPrice)
+            {
+
+                OnPropertyChanged("TovarnaPrice");
+                OnPropertyChanged("MoneyCTR");
+                OnPropertyChanged("MoneyIncome");
+            }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

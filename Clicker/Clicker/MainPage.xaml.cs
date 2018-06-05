@@ -21,7 +21,6 @@ namespace Clicker
             var imageSender = (Image)sender;
             // Do something
             DisplayAlert("Alert", "Tap gesture recoganised", "OK");
-            Navigation.PushModalAsync(new LabPage { });
         }
         void TapOpenLab(object sender, EventArgs args)
         {
