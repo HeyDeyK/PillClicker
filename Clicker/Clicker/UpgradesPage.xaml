@@ -5,10 +5,20 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Vylepšení" FontSize="35" Margin="0,0,0,20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            
             <Label Text="Bonus za kliknutí" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
             <Label Text="{Binding UpgKlikLevel,StringFormat='Úroveň: {0:N} za klik'}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
-            <Button Text="{Binding KlikPrice}" Command="{Binding CmdUpgradeKlik}"></Button>
-            
+            <Button Text="{Binding KlikPrice}" Command="{Binding CmdUpgradeKlik}" BackgroundColor="{Binding UpgradeKlikColor}"></Button>
+
+            <Label Text="Double Klik na minutu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="{Binding DoubleKlikMinutaZbyva,StringFormat='Zbývá: {0:N}'}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Button Text="{Binding DoubleKlikMinutaPrice}" Command="{Binding CmdUpgradeDoubleMinuta}" BackgroundColor="{Binding UpgradeDoubleMinutaColor}"></Button>
+
+            <Label Text="Double Klik na deset minut" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="{Binding DoubleKlikDesetDurationZbyva,StringFormat='Zbývá: {0:N}'}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Button Text="{Binding DoubleKlikDesetPrice}" Command="{Binding CmdUpgradeDoubleDeset}" BackgroundColor="{Binding UpgradeDoubleDesetColor}"></Button>
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

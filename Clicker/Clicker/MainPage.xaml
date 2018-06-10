@@ -32,10 +32,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Source="pillback1.jpeg" Grid.Row="0" Grid.Column="0"></Image>
-                    <Image Source="pillback2.jpeg" Grid.Row="0" Grid.Column="1"></Image>
-                    <Image Source="pillback3.jpeg" Grid.Row="0" Grid.Column="2"></Image>
-                    <Image Source="pillback4.jpeg" Grid.Row="0" Grid.Column="3"></Image>
+                    <Image Source="{Binding LabImage}" Grid.Row="0" Grid.Column="0"></Image>
+                    <Image Source="{Binding TovarnaImage}" Grid.Row="0" Grid.Column="1"></Image>
+                    <Image Source="{Binding ProdejnaImage}" Grid.Row="0" Grid.Column="2"></Image>
+                    <Image Source="{Binding KanclImage}" Grid.Row="0" Grid.Column="3"></Image>
 
                 </Grid>
                 <Grid HorizontalOptions="Center">
@@ -68,8 +68,6 @@
                 </Grid>
                 
 
-                <Slider Minimum="0" Maximum="100" Value="{Binding SliderPomerValue }" VerticalOptions="CenterAndExpand" Margin="0,0,0,100"></Slider>
-
             </StackLayout>
 
         </ScrollView>
@@ -81,27 +79,15 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image Source="upgrade.jpg" Grid.Row="0" Grid.Column="0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapOpenLab"  />
-                </Image.GestureRecognizers>
-            </Image>
-            <Image Source="upgrade.jpg" Grid.Row="0" Grid.Column="1">
+            <Image Source="vylepseni.jpg" Grid.Row="0" Grid.Column="0" Aspect="Fill">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapOpenUpgrade"  />
                 </Image.GestureRecognizers>
             </Image>
-            <Image Source="upgrade.jpg" Grid.Row="0" Grid.Column="2">
+            <Image Source="leky.jpg" Grid.Row="0" Grid.Column="1" Aspect="Fill">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped"  />
-                </Image.GestureRecognizers>
-            </Image>
-            <Image Source="upgrade.jpg" Grid.Row="0" Grid.Column="3">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapOpenSettings"  />
+                    <TapGestureRecognizer Tapped="TapOpenLab"  />
                 </Image.GestureRecognizers>
             </Image>
         </Grid>

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Clicker.ViewModels;
+using System.IO;
+using CsvHelper;
 
 namespace Clicker
 {
@@ -15,6 +17,7 @@ namespace Clicker
 		{
 			InitializeComponent();
             this.BindingContext = new AppViewModel();
+            
 
         }
         void OnTapGestureRecognizerTapped(object sender, EventArgs args)
@@ -25,7 +28,7 @@ namespace Clicker
         }
         void TapOpenLab(object sender, EventArgs args)
         {
-            Navigation.PushModalAsync(new LabPage { });
+            Navigation.PushModalAsync(new SettingsPage { });
         }
         void TapOpenSettings(object sender, EventArgs args)
         {
@@ -35,5 +38,6 @@ namespace Clicker
         {
             Navigation.PushModalAsync(new Page3 { });
         }
+        
     }
 }

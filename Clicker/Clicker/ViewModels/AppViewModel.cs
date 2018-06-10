@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,15 +15,6 @@ namespace Clicker
     class AppViewModel : UserData, INotifyPropertyChanged
     {
         
-        private double _MoneyIncome = 0;
-        public double MoneyIncome
-        {
-            get => _MoneyIncome;
-            set
-            {
-                _MoneyIncome = value;
-            }
-        }
 
         private int _TovarnaPrice = 50;
         public int TovarnaPrice
@@ -32,7 +25,7 @@ namespace Clicker
                 _TovarnaPrice = value;
             }
         }
-        private int _TovarnaCount = 1;
+        private int _TovarnaCount = 1   ;
         public int TovarnaCount
         {
             get => _TovarnaCount;
@@ -41,7 +34,7 @@ namespace Clicker
                 _TovarnaCount = value;
             }
         }
-        private int _ProdejnaPrice = 50;
+        private int _ProdejnaPrice = 1000;
         public int ProdejnaPrice
         {
             get => _ProdejnaPrice;
@@ -59,7 +52,7 @@ namespace Clicker
                 _ProdejnaCount = value;
             }
         }
-        private int _LabPrice = 50;
+        private int _LabPrice = 15000;
         public int LabPrice
         {
             get => _LabPrice;
@@ -77,7 +70,7 @@ namespace Clicker
                 _LabCount = value;
             }
         }
-        private int _KanclPrice = 50;
+        private int _KanclPrice = 50000;
         public int KanclPrice
         {
             get => _KanclPrice;
@@ -96,6 +89,42 @@ namespace Clicker
             }
         }
 
+        private double _TovarnaIncome = 0;
+        public double TovarnaIncome
+        {
+            get => _TovarnaIncome;
+            set
+            {
+                _TovarnaIncome = value;
+            }
+        }
+        private double _ProdejnaIncome = 0;
+        public double ProdejnaIncome
+        {
+            get => _ProdejnaIncome;
+            set
+            {
+                _ProdejnaIncome = value;
+            }
+        }
+        private double _LabIncome = 0;
+        public double LabIncome
+        {
+            get => _LabIncome;
+            set
+            {
+                _LabIncome = value;
+            }
+        }
+        private double _KanclIncome = 0;
+        public double KanclIncome
+        {
+            get => _KanclIncome;
+            set
+            {
+                _KanclIncome = value;
+            }
+        }
         private double _SliderPomerValue = 0;
         public double SliderPomerValue
         {
@@ -114,7 +143,10 @@ namespace Clicker
         public string LabColor { get; set; } = "red";
         public string KanclColor { get; set; } = "red";
 
-
+        public string TovarnaImage { get; set; } = "pillback2.jpeg";
+        public string ProdejnaImage { get; set; } = "pillback3.jpeg";
+        public string LabImage { get; set; } = "pillback1.jpeg";
+        public string KanclImage { get; set; } = "pillback4.jpeg";
 
         ICommand tovarnaUpgrade;
         ICommand prodejnaUpgrade;
@@ -148,10 +180,23 @@ namespace Clicker
             AddCommands();
             TimedFunction(100);
             TimedFunctionShort(250);
+            Ulozit();
+        }
+        public void Ulozit()
+        {
+            /*
+            TextWriter fileReader = new StreamWriter(@"textwriter.csv");
+            var csv = new CsvWriter(fileReader);
+            var record = new SavedData { MoneyCTR = MoneyCTR, MoneyClick = MoneyClick, KlikLevel = KlikLevel, KlikPrice = KlikPrice, MoneyIncome = MoneyIncome, DoubleKlikDesetDuration = DoubleKlikDesetDuration, DoubleKlikDesetPrice = DoubleKlikDesetPrice, DoubleKlikMinutaDuration = DoubleKlikMinutaDuration, DoubleKlikMinutaPrice = DoubleKlikMinutaPrice };
+            csv.WriteRecord(record);
+            */
         }
         private void AddCommands()
         {
             tovarnaUpgrade = new Command(AutoFactory);
+            prodejnaUpgrade = new Command(AutoProdejna);
+            labUpgrade = new Command(AutoLab);
+            kanclUpgrade = new Command(AutoKancl);
             tapAddMoney = new Command(AddMoneyF);
         }
         void OnSliderValueChanged()
@@ -164,7 +209,8 @@ namespace Clicker
         }
         private void AddMoneyF()
         {
-            MoneyCTR++;
+            Console.WriteLine(MoneyClick);
+            MoneyCTR = MoneyCTR+ MoneyClick;
             OnPropertyChanged("MoneyCTR");
         }
         public void TimedFunction(int cas)
@@ -237,52 +283,144 @@ namespace Clicker
 
         }
         
-        void AutoFactory(object s)
+        void AutoFactory()
         {
             if(MoneyCTR>=TovarnaPrice)
             {
                 TovarnaCount++;
                 MoneyCTR = MoneyCTR - TovarnaPrice;
-                MoneyIncome = TovarnaCount * 5;
+                TovarnaIncome = TovarnaCount * 5;
+                
                 double NewPrice = TovarnaPrice * Math.Pow(1.1,TovarnaCount);
                 TovarnaPrice = Convert.ToInt32(NewPrice);
-                
+
+                MoneyIncome = TovarnaIncome + ProdejnaIncome + LabIncome + KanclIncome;
                 OnPropertyChanged("TovarnaPrice");
                 OnPropertyChanged("MoneyCTR");
                 OnPropertyChanged("MoneyIncome");
+                if (TovarnaCount == 2)
+                {
+                    TovarnaImage = "pillback2_lvl1.jpg";
+                    OnPropertyChanged("TovarnaImage");
+                }
+                else if(TovarnaCount == 5)
+                {
+                    TovarnaImage = "pillback2_lvl2.jpg";
+                    OnPropertyChanged("TovarnaImage");
+                }
+                else if (TovarnaCount == 10)
+                {
+                    TovarnaImage = "pillback2_lvl3.jpg";
+                    OnPropertyChanged("TovarnaImage");
+                }
             }
             
         }
-        void AutoProdejna(object s)
+
+        void AutoProdejna()
         {
             if (MoneyCTR >= ProdejnaPrice)
             {
+                ProdejnaCount++;
+                MoneyCTR = MoneyCTR - ProdejnaPrice;
+                ProdejnaIncome = ProdejnaCount * 20;
 
-                OnPropertyChanged("TovarnaPrice");
+                double NewPrice = 1000 * Math.Pow(1.5, ProdejnaCount);
+                Console.WriteLine(NewPrice);
+                ProdejnaPrice = Convert.ToInt32(NewPrice);
+
+                MoneyIncome = TovarnaIncome + ProdejnaIncome + LabIncome + KanclIncome;
+                OnPropertyChanged("ProdejnaPrice");
                 OnPropertyChanged("MoneyCTR");
                 OnPropertyChanged("MoneyIncome");
+                
+                if (ProdejnaCount == 2)
+                {
+                    ProdejnaImage = "pillback3_lvl1.jpg";
+                    OnPropertyChanged("ProdejnaImage");
+                }
+                else if (ProdejnaCount == 5)
+                {
+                    ProdejnaImage = "pillback3_lvl2.jpg";
+                    OnPropertyChanged("ProdejnaImage");
+                }
+                else if (ProdejnaCount == 10)
+                {
+                    ProdejnaImage = "pillback3_lvl3.jpg";
+                    OnPropertyChanged("ProdejnaImage");
+                }
             }
 
         }
-        void AutoLab(object s)
+
+
+        void AutoLab()
         {
             if (MoneyCTR >= LabPrice)
             {
+                LabCount++;
+                MoneyCTR = MoneyCTR - LabPrice;
+                LabIncome = LabCount * 50;
 
-                OnPropertyChanged("TovarnaPrice");
+                double NewPrice = 15000 * Math.Pow(1.5, LabCount);
+                Console.WriteLine(NewPrice);
+                LabPrice = Convert.ToInt32(NewPrice);
+
+                MoneyIncome = TovarnaIncome + ProdejnaIncome + LabIncome + KanclIncome;
+                OnPropertyChanged("LabPrice");
                 OnPropertyChanged("MoneyCTR");
                 OnPropertyChanged("MoneyIncome");
+                
+                if (LabCount == 2)
+                {
+                    LabImage = "pillback1_lvl1.jpg";
+                    OnPropertyChanged("LabImage");
+                }
+                else if (LabCount == 5)
+                {
+                    LabImage = "pillback1_lvl2.jpg";
+                    OnPropertyChanged("LabImage");
+                }
+                else if (LabCount == 10)
+                {
+                    LabImage = "pillback1_lvl3.jpg";
+                    OnPropertyChanged("LabImage");
+                }
             }
 
         }
-        void AutoKancl(object s)
+        void AutoKancl()
         {
             if (MoneyCTR >= KanclPrice)
             {
+                KanclCount++;
+                MoneyCTR = MoneyCTR - KanclPrice;
+                KanclIncome = KanclIncome * 100;
 
-                OnPropertyChanged("TovarnaPrice");
+                double NewPrice = 50000 * Math.Pow(1.5, KanclCount);
+                Console.WriteLine(NewPrice);
+                KanclPrice = Convert.ToInt32(NewPrice);
+
+                MoneyIncome = TovarnaIncome + ProdejnaIncome + LabIncome + KanclIncome;
+                OnPropertyChanged("KanclPrice");
                 OnPropertyChanged("MoneyCTR");
                 OnPropertyChanged("MoneyIncome");
+                
+                if (KanclCount == 2)
+                {
+                    KanclImage = "pillback4_lvl1.jpg";
+                    OnPropertyChanged("KanclImage");
+                }
+                else if (KanclCount == 5)
+                {
+                    KanclImage = "pillback4_lvl2.jpg";
+                    OnPropertyChanged("KanclImage");
+                }
+                else if (KanclCount == 10)
+                {
+                    KanclImage = "pillback4_lvl3.jpg";
+                    OnPropertyChanged("KanclImage");
+                }
             }
 
         }

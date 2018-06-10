@@ -4,9 +4,16 @@
              x:Class="Clicker.SettingsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Zde bude nastavení xd"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Odemykání léků" FontSize="35" Margin="0,0,0,20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+
+            <Label Text="Ibalgin" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="+20 přijmu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Button Text="10000" Command="{Binding CmdIbalgin}" BackgroundColor="{Binding ColorIbalgin}" IsEnabled="{Binding IbalginEnabled}"></Button>
+
+            <Label Text="Paralen" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Label Text="+20 přijmu" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Black"></Label>
+            <Button Text="10000" Command="{Binding CmdParalen}" BackgroundColor="{Binding ColorParalen}" IsEnabled="{Binding ParalenEnabled}"></Button>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
